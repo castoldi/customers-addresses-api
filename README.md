@@ -7,6 +7,9 @@
 * Maven
 * Preference IDE
 
+## Testing evidences
+[Customers-Addresses-API-Testing-evidences.docx](https://github.com/castoldi/customers-addresses-api/blob/main/Customers-Addresses-API-Testing-evidences.docx)
+
 ### How to run the app
 
 * The mainclass is com.castoldi.custaddr.CustomersAddressesApiApplication
