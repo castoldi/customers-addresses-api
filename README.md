@@ -8,7 +8,7 @@
 * Preference IDE
 
 ## Testing evidences
-[Customers-Addresses-API-Testing-evidences.docx](https://github.com/castoldi/customers-addresses-api/blob/main/Customers-Addresses-API-Testing-evidences.docx)
+[Customers-Addresses-API-Testing-evidences.docx](https://github.com/castoldi/customers-addresses-api/blob/75b8aa6062f532935eb38577f336ddf51674665e/Customers-Addresses-API-Testing-evidences.docx)
 
 ### How to run the app
 
