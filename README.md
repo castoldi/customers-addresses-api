@@ -82,11 +82,6 @@ Need to add Content-Type: application/json in the header.
 mvn clean test
 ```
 
-* Run SonarQube with below command.
-
-```sh
-mvn install sonar:sonar -Dsonar.login=login -Dsonar.password=password
-```
 ### Generate javadoc
 * Run maven command below to generate the javadocs.
 
