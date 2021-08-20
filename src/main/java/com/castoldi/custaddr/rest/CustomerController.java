@@ -2,6 +2,7 @@ package com.castoldi.custaddr.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -53,6 +54,7 @@ public class CustomerController {
 		currentCustomer.setName(customer.getName());
 		currentCustomer.setAge(customer.getAge());
 		currentCustomer.setRegistrationDate(customer.getRegistrationDate());
+		currentCustomer.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
 		currentCustomer = customerService.save(currentCustomer);
 
 		return ResponseEntity.ok(currentCustomer);
@@ -65,7 +67,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/zipCode/{zipCode}")
-	public Customer getCustomerByZipCode(@PathVariable String zipCode) {
+	public List<Customer> getCustomerByZipCode(@PathVariable String zipCode) {
 		return customerService.findByZipCode(zipCode);
 	}
 }

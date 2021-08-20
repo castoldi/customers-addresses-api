@@ -43,7 +43,7 @@ public class DefaultCustomerService implements CustomerService {
 	}
 
 	@Override
-	public Customer findByZipCode(String zipCode) {
+	public List<Customer> findByZipCode(String zipCode) {
 		logger.info("Finding customer by zipCode={}", zipCode);
 		return customerRespository.findByZipCode(zipCode).orElseThrow(RuntimeException::new);
 	}

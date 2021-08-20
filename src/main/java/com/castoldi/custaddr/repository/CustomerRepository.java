@@ -1,5 +1,6 @@
 package com.castoldi.custaddr.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +13,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 	//@Query("SELECT c from Customer c where c.addresses.zipCode=:zipCode")
 	@Query("SELECT c FROM Customer c left join c.addresses a WHERE a.zipCode = :zipCode")
-	Optional<Customer> findByZipCode(@Param("zipCode") String zipCode);
+	Optional<List<Customer>> findByZipCode(@Param("zipCode") String zipCode);
 	
 
 
