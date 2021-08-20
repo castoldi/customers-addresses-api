@@ -1,6 +1,9 @@
 package com.castoldi.custaddr;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.castoldi.custaddr.domain.Address;
 import com.castoldi.custaddr.domain.Customer;
-import com.castoldi.custaddr.repository.CustomerRepository;
+import com.castoldi.custaddr.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -28,9 +31,11 @@ class CustomersAddressesApiApplicationTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
-	private CustomerRepository customerRepo;
+	private CustomerService service;
+	
+	private ObjectMapper mapper = new ObjectMapper();
 
 	private Customer createCustomer(Long id, List<Address> addresses) {
 		Customer customer = new Customer();
@@ -43,8 +48,8 @@ class CustomersAddressesApiApplicationTests {
 		customer.setRegistrationDate(new Timestamp(System.currentTimeMillis()));
 		return customer;
 	}
-	
-	private List<Address> createAddressList(int size, List<Customer> customers) {
+
+	private List<Address> createAddressList(int size) {
 		List<Address> addresses = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
 			Address address = new Address();
@@ -52,29 +57,21 @@ class CustomersAddressesApiApplicationTests {
 			address.setNumber(RandomUtils.nextInt());
 			addresses.add(address);
 		}
-		
+
 		return addresses;
 	}
-	
+
 	@Test
-	void findCustomers() throws Exception {
-		List<Customer> customerList = new ArrayList<>();
-		customerList.add(this.createCustomer(RandomUtils.nextLong(), createAddressList(2, customerList)));
-		
-		ObjectMapper mapper = new ObjectMapper();
-		System.out.println(mapper.writeValueAsString(customerList.get(0)));
-		System.out.println(mapper.writeValueAsString(createAddressList(2, null)));
-		
-		
-		
-		//when(meterRepo.findById("1714A6")).thenReturn(meter);
-		
-		 mockMvc.perform(get("/consumption")
-		            .contentType("application/json")
-		            .queryParam("meter_number", "1234"))
-		 			.andDo(print())
-		 			.andExpect(content().string("0"))
-		            .andExpect(status().isNotFound());
+	void saveCustomer() throws Exception {
+		Customer customer = createCustomer(6L, createAddressList(2));
+		when(service.save(any(Customer.class))).thenReturn(customer);
+
+		mockMvc.perform(post("/customer")
+				.contentType("application/json")
+				.content(mapper.writeValueAsString(customer)))
+				.andDo(print())
+				.andExpect(content().string(containsString("\"documentId\":\"documentId6\"")))
+				.andExpect(status().isCreated());
 	}
-	
+
 }
