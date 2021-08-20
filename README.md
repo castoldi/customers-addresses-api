@@ -22,6 +22,8 @@ mvn clean spring-boot:run
 
 [POST] http://localhost:8080/customer
 
+Need to add Content-Type: application/json in the header.
+
 Payload example:
 
 ```sh
