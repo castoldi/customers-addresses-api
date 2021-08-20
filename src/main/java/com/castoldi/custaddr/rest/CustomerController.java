@@ -17,55 +17,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.castoldi.custaddr.domain.Customer;
-import com.castoldi.custaddr.repository.CustomerRepository;
+import com.castoldi.custaddr.service.CustomerService;
 
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	private final CustomerRepository customerRespository;
+	private final CustomerService customerService;
 
-	public CustomerController(CustomerRepository customerRespository) {
-		this.customerRespository = customerRespository;
+	public CustomerController(CustomerService customerService) {
+		this.customerService = customerService;
 	}
 
 	@GetMapping
 	public List<Customer> getCustomers() {
-		return customerRespository.findAll();
+		return customerService.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public Customer getCustomer(@PathVariable Long id) {
-		return customerRespository.findById(id).orElseThrow(RuntimeException::new);
+		return customerService.findById(id);
 	}
 
 	@PostMapping
 	public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) throws URISyntaxException {
-		Customer savedCustomer = customerRespository.save(customer);
+		Customer savedCustomer = customerService.save(customer);
 		return ResponseEntity.created(new URI("/clients/" + savedCustomer.getId())).body(savedCustomer);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
 		logger.info("Updating customerId={}, customer={}", id, customer);
-		Customer currentCustomer = customerRespository.findById(id).orElseThrow(RuntimeException::new);
+		Customer currentCustomer = customerService.findById(id);
 		currentCustomer.setDocumentId(customer.getDocumentId());
 		currentCustomer.setName(customer.getName());
 		currentCustomer.setAge(customer.getAge());
 		currentCustomer.setRegistrationDate(customer.getRegistrationDate());
-		currentCustomer = customerRespository.save(currentCustomer);
+		currentCustomer = customerService.save(currentCustomer);
 
 		return ResponseEntity.ok(currentCustomer);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deleteCustomer(@PathVariable Long id) {
-		customerRespository.deleteById(id);
+		customerService.deleteById(id);
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/zipCode/{zipCode}")
 	public Customer getCustomerByZipCode(@PathVariable String zipCode) {
-		return customerRespository.findByZipCode(zipCode).orElseThrow(RuntimeException::new);
+		return customerService.findByZipCode(zipCode);
 	}
 }
