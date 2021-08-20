@@ -18,7 +18,7 @@ mvn clean spring-boot:run
 ```
 * The available endpoints will be as default in below URLs.
 
-1) Save new customer
+### 1) Save new customer
 
 [POST] http://localhost:8080/customer
 
@@ -45,17 +45,17 @@ Payload example:
 }
 ```
 
-2) Get customer List
+### 2) Get Customer List
 
 [GET] http://localhost:8080/customer
 
 Need to add Content-Type: application/json in the header.
 
-3) Get Customer
+### 3) Get Customer by id
 
 [GET] http://localhost:8080/customer/{id}
 
-4) Update customer
+### 4) Update customer
 
 [PUT] http://localhost:8080/customer/{id}
 
@@ -70,11 +70,11 @@ Need to add Content-Type: application/json in the header.
 }
 ```
 
-5) Delete customer
+### 5) Delete customer
 
 [DELETE] http://localhost:8080/customer/{id}
 
-6) Find customer by Zip Code
+### 6) Find customer by Zip Code
 
 [GET] http://localhost:8080/customer/zipCode/{zipCode}
 
